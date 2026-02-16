@@ -46,4 +46,5 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 - Phase 5: Markdown 지원 ✅
 - Phase 6: 검색 & 페이징 ✅
 - Phase 7: 배포 ✅ (Railway + PostgreSQL)
-- **전체 Phase 완료!**
+- Phase 8: REST API 전환 ✅ (@RestController, DTO, ResponseEntity)
+- **Phase 9: 프론트엔드 분리 (다음)** (React + Vite)

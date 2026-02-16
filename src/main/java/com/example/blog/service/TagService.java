@@ -2,6 +2,7 @@ package com.example.blog.service;
 
 import com.example.blog.entity.Tag;
 import com.example.blog.repository.TagRepository;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,11 @@ import org.springframework.stereotype.Service;
 public class TagService {
 
     private final TagRepository tagRepository;
+
+    // 전체 태그 목록 조회 (REST API에서 사용)
+    public List<Tag> getTags() {
+        return tagRepository.findAll();
+    }
 
     // 이름으로 태그 조회 (기존 태그가 있는지 확인할 때 사용)
     public Optional<Tag> getTag(String name) {

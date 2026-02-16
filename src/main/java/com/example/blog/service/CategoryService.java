@@ -1,5 +1,6 @@
 package com.example.blog.service;
 
+import com.example.blog.dto.CategoryRequest;
 import com.example.blog.entity.Category;
 import com.example.blog.repository.CategoryRepository;
 import java.util.List;
@@ -34,4 +35,15 @@ public class CategoryService {
         return categoryRepository.save(category);
     }
 
+    // [REST API용] 카테고리 생성 (중복 방지)
+    // 같은 이름의 카테고리가 이미 존재하면 생성하지 않음
+    public Category save(CategoryRequest categoryRequest) {
+        Category category = getCategory(categoryRequest.getName()).orElse(null);
+        if (category != null) {
+            return category;
+        }
+        Category newCategory = new Category();
+        newCategory.setName(categoryRequest.getName());
+        return categoryRepository.save(newCategory);
+    }
 }

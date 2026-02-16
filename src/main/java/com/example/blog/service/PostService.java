@@ -1,5 +1,7 @@
 package com.example.blog.service;
 
+import com.example.blog.dto.PostRequest;
+import com.example.blog.dto.PostResponse;
 import com.example.blog.entity.Category;
 import com.example.blog.entity.Post;
 import com.example.blog.entity.Tag;
@@ -95,6 +97,46 @@ public class PostService {
         post.setUpdatedAt(LocalDateTime.now());
         return postRepository.save(post);
     }
+
+    // [REST API용] 글 생성 (PostRequest DTO → Post 엔티티 변환 후 저장)
+    // DTO → 엔티티 변환은 Service 계층에서 처리 (Entity가 DTO를 몰라야 하므로)
+    public PostResponse createPost(PostRequest postRequest) {
+        Post post = new Post();
+        post.setTitle(postRequest.getTitle());
+        post.setContent(postRequest.getContent());
+        setCategory(post, postRequest.getCategoryId());
+        String tags = postRequest.getTagNames() != null ? String.join(",", postRequest.getTagNames()) : null;
+        Post newPost = savePost(post, tags);
+        return new PostResponse(newPost);
+    }
+
+    // [REST API용] 글 수정 (기존 글을 찾아서 필드만 업데이트)
+    // 글이 없으면 새로 생성 (Upsert 패턴)
+    public PostResponse updatePost(Long id, PostRequest postRequest) {
+        Post post = postRepository.findById(id).orElse(null);
+        if (post == null) {
+            return createPost(postRequest);
+        }
+        post.setTitle(postRequest.getTitle());
+        post.setContent(postRequest.getContent());
+        setCategory(post, postRequest.getCategoryId());
+        String tags = postRequest.getTagNames() != null ? String.join(",", postRequest.getTagNames()) : null;
+        Post newPost = savePost(post, tags);
+        return new PostResponse(newPost);
+    }
+
+    // [공통] PostRequest의 categoryId로 Post에 카테고리 설정
+    // categoryId가 null이면 카테고리 없음 처리
+    private void setCategory(Post post, Long categoryId) {
+        if (categoryId != null) {
+            Category category = new Category();
+            category.setId(categoryId);
+            post.setCategory(category);
+        } else {
+            post.setCategory(null);
+        }
+    }
+
     public void deletePost(Long id) {
         postRepository.deleteById(id);
     }
