@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title th:text="${post.title}">Post Detail</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <div class="post-detail">
+        <h1 th:text="${post.title}">Title</h1>
+        <span class="post-meta" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2026-01-01</span>
+        <span class="post-meta" th:if="${post.category != null}" th:text="'| ' + ${post.category.name}">| Category</span>
+
+        <div th:if="${post.tags != null && !post.tags.isEmpty()}" style="margin-top: 0.5rem;">
+            <span th:each="tag : ${post.tags}" class="tag-badge" th:text="${tag.name}">tag</span>
+        </div>
+
+        <!-- th:utext: HTML을 이스케이프하지 않고 그대로 렌더링 (Markdown → HTML 변환 결과 표시용) -->
+        <!-- th:text는 <strong>을 텍스트로 보여주지만, th:utext는 실제 굵은 글씨로 렌더링 -->
+        <div class="post-content" th:utext="${contentHtml}">Content</div>
+
+        <div style="margin-top: 2rem;">
+            <a class="btn btn-secondary" th:href="@{/posts/{id}/edit(id=${post.id})}">Edit</a>
+            <form th:action="@{/posts/{id}/delete(id=${post.id})}" method="post" style="display: inline;">
+                <button class="btn btn-danger" type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
+            <a class="btn btn-secondary" th:href="@{/posts}">Back to List</a>
+        </div>
+    </div>
+</main>
+
+</body>
+</html>

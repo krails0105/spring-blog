@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Edit Post</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <h1>Edit Post</h1>
+
+    <form th:action="@{/posts/{id}/edit(id=${post.id})}" method="post">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" th:value="${post.title}" required>
+        </div>
+        <div class="form-group">
+            <label for="content">Content</label>
+            <textarea id="content" name="content" required th:text="${post.content}"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="category.id">
+                <option value="">-- Select --</option>
+                <option th:each="cat : ${categories}" th:value="${cat.id}"
+                        th:selected="${post.category != null && post.category.id == cat.id}"
+                        th:text="${cat.name}">Category</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="tags">Tags (comma separated)</label>
+            <input type="text" id="tags" name="tagInput"
+                   th:value="${post.tags != null ? #strings.listJoin(post.tags.![name], ', ') : ''}">
+        </div>
+        <button class="btn btn-primary" type="submit">Update</button>
+        <a class="btn btn-secondary" th:href="@{/posts/{id}(id=${post.id})}">Cancel</a>
+    </form>
+</main>
+
+</body>
+</html>

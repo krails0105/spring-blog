@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/default}">
+<head>
+    <title>Posts</title>
+</head>
+<body>
+
+<main layout:fragment="content">
+    <h1>Posts</h1>
+    <a class="btn btn-primary" th:href="@{/posts/new}" style="margin-bottom: 1rem; display: inline-block;">New Post</a>
+
+    <form th:action="@{/posts}" method="get" style="margin-bottom: 1rem;">
+        <input type="text" name="keyword" placeholder="제목 또는 내용 검색" th:value="${param.keyword}">
+        <button type="submit"></button>
+    </form>
+
+    <ul class="post-list" th:if="${!posts.content.isEmpty()}">
+        <li class="post-item" th:each="post : ${posts.content}">
+            <h2><a th:href="@{/posts/{id}(id=${post.id})}" th:text="${post.title}">Title</a></h2>
+            <span class="post-meta" th:text="${#temporals.format(post.createdAt, 'yyyy-MM-dd HH:mm')}">2026-01-01</span>
+            <span class="post-meta" th:if="${post.category != null}" th:text="'| ' + ${post.category.name}">| Category</span>
+            <div th:if="${post.tags != null && !post.tags.isEmpty()}" style="margin-top: 0.3rem;">
+                <span th:each="tag : ${post.tags}" class="tag-badge" th:text="${tag.name}">tag</span>
+            </div>
+        </li>
+    </ul>
+    <div class="pagination">
+        <a th:if="${posts.hasPrevious()}"
+           th:href="@{/posts(page=${posts.number - 1}, category=${param.category}, keyword=${param.keyword})}">
+            &laquo; 이전
+        </a>
+        <span th:text="${posts.number + 1} + ' / ' + ${posts.totalPages}"></span>
+        <a th:if="${posts.hasNext()}"
+           th:href="@{/posts(page=${posts.number + 1}, category=${param.category}, keyword=${param.keyword})}">
+            다음 &raquo;
+        </a>
+    </div>
+    <p th:if="${posts.content.isEmpty()}">No posts yet.</p>
+</main>
+
+</body>
+</html>
