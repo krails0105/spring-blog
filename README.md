@@ -27,7 +27,7 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 | 4 | 카테고리 & 태그 | ManyToOne, ManyToMany 연관관계 | JPA 연관관계 - 카테고리와 태그 | ✅ |
 | 5 | Markdown 지원 | commonmark-java, Markdown → HTML 변환 | Markdown 렌더링 적용하기 | ✅ |
 | 6 | 검색 & 페이징 | Spring Data JPA Pageable, 동적 쿼리 | 페이징과 검색 기능 구현 | ✅ |
-| 7 | 배포 | DB 전환, Railway/Render 배포 | 배포하기 | 미진행 |
+| 7 | 배포 | DB 전환, Railway/Render 배포 | 배포하기 | ✅ |
 
 ## 진행 방식
 
@@ -94,5 +94,5 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 ### Phase 7: 배포
 
 **완료 기준:**
-- [ ] H2 → MySQL/PostgreSQL 전환
-- [ ] Railway 또는 Render에 배포
+- [x] H2 → PostgreSQL 전환 (프로필 분리: dev/prod)
+- [x] Railway에 배포

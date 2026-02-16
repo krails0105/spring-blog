@@ -45,4 +45,5 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 - Phase 4: 카테고리 & 태그 ✅
 - Phase 5: Markdown 지원 ✅
 - Phase 6: 검색 & 페이징 ✅
-- **Phase 7: 배포 (다음)**
+- Phase 7: 배포 ✅ (Railway + PostgreSQL)
+- **전체 Phase 완료!**
