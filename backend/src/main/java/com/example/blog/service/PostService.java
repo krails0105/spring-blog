@@ -106,6 +106,8 @@ public class PostService {
         post.setContent(postRequest.getContent());
         setCategory(post, postRequest.getCategoryId());
         String tags = postRequest.getTagNames() != null ? String.join(",", postRequest.getTagNames()) : null;
+        System.out.println(post + "+" + tags);
+
         Post newPost = savePost(post, tags);
         return new PostResponse(newPost);
     }

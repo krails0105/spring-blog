@@ -72,6 +72,7 @@ public class PostApiController {
     @PostMapping
     public ResponseEntity<PostResponse> createPost(@RequestBody PostRequest postRequest) {
         PostResponse postResponse = postService.createPost(postRequest);
+        System.out.println(postResponse);
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponse);
     }
 

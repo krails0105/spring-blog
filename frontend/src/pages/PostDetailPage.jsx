@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { fetchPost, deletePost } from '../api/postApi'
+import { useAuth } from '../contexts/AuthContext'
 
 // PostDetailPage: 글 상세 보기 페이지
 // URL의 :id 파라미터로 어떤 글을 보여줄지 결정
@@ -9,6 +10,8 @@ function PostDetailPage() {
   const { id } = useParams()
   // useNavigate: 프로그래밍 방식으로 페이지 이동 (링크 클릭 없이)
   const navigate = useNavigate()
+  // useAuth: 로그인 상태 확인 (수정/삭제 버튼 표시 여부)
+  const { user } = useAuth()
 
   const [post, setPost] = useState(null)
   const [loading, setLoading] = useState(true)
@@ -65,23 +68,28 @@ function PostDetailPage() {
         {post.content}
       </div>
 
-      {/* 액션 버튼: 목록으로, 수정, 삭제 */}
+      {/* 액션 버튼 */}
       <div className="flex gap-3 pt-6 border-t">
         <Link to="/" className="text-gray-600 hover:text-gray-800 text-sm">
-          ← 목록으로
+          &larr; 목록으로
         </Link>
-        <Link
-          to={`/posts/${id}/edit`}
-          className="bg-yellow-500 text-white px-4 py-1.5 rounded-lg hover:bg-yellow-600 text-sm ml-auto"
-        >
-          수정
-        </Link>
-        <button
-          onClick={handleDelete}
-          className="bg-red-500 text-white px-4 py-1.5 rounded-lg hover:bg-red-600 text-sm"
-        >
-          삭제
-        </button>
+        {/* 로그인한 경우에만 수정/삭제 버튼 표시 */}
+        {user && (
+          <>
+            <Link
+              to={`/posts/${id}/edit`}
+              className="bg-yellow-500 text-white px-4 py-1.5 rounded-lg hover:bg-yellow-600 text-sm ml-auto"
+            >
+              수정
+            </Link>
+            <button
+              onClick={handleDelete}
+              className="bg-red-500 text-white px-4 py-1.5 rounded-lg hover:bg-red-600 text-sm"
+            >
+              삭제
+            </button>
+          </>
+        )}
       </div>
     </article>
   )
