@@ -27,9 +27,11 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 ## 블로그 포스트 규칙
 
 - **경로**: `/Users/test/Workspace/study/side-project/blog/_posts/SpringBlog/YYYY-MM-DD-제목.md`
-- **워크플로우**: `dev-to-blog-draft` → `blog-post-polisher` (순차 실행)
+  - ⚠️ `krails0105.github.io/_posts/`가 아님! 반드시 `blog/_posts/`에 작성할 것
+- **워크플로우 (필수)**: 반드시 `/post` 스킬을 통해 작성할 것 (`dev-to-blog-draft` → `blog-post-polisher` 순차 실행). Write 도구로 직접 작성 금지!
 - **Context7 검증**: 기술적 정확성만 (도메인 용어 제외)
 - **포스트 내용 범위**: 구현 과정뿐만 아니라 세션 중 나온 질의응답, 기술 개념 설명(예: Gradle이란?, @Controller vs @RestController, View Resolver 등)도 함께 정리하여 포함
+- **학습 여정 전체 포함 (필수)**: 최종 결과물만 다루지 말고, 학습 과정에서 거친 모든 단계를 포함할 것. 예: 세션 기반 → JWT 전환이면, 세션 기반 두 가지 방식(직접 SecurityContextHolder 사용 / AuthenticationManager 사용)도 반드시 포함
 
 ## 코드 스타일
 
@@ -48,8 +50,9 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 - Phase 7: 배포 ✅ (Railway + PostgreSQL)
 - Phase 8: REST API 전환 ✅ (@RestController, DTO, ResponseEntity)
 - Phase 9: 프론트엔드 분리 ✅ (React + Vite, CORS, API 연동)
-- **Phase 10A: 세션 기반 인증 (진행중)** ← 현재
-- Phase 10B: JWT 기반으로 전환 (예정)
+- Phase 10A: 세션 기반 인증 ✅
+- Phase 10B: JWT 기반으로 전환 ✅
+- Phase 11: 댓글 기능 (예정)
 
 ## Phase 10: 로그인/인증 기능 구현
 
