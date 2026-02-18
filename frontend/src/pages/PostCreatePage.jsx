@@ -20,9 +20,13 @@ function PostCreatePage() {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-sm border p-8">
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">새 글 작성</h1>
-      <PostForm onSubmit={handleSubmit} submitLabel="작성하기" />
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+      {/* 상단 장식: 인디고→퍼플 그라데이션 바 (다른 페이지와 통일된 디자인) */}
+      <div className="h-1 bg-gradient-to-r from-indigo-500 to-purple-500" />
+      <div className="p-8">
+        <h1 className="text-2xl font-bold text-gray-800 mb-6">새 글 작성</h1>
+        <PostForm onSubmit={handleSubmit} submitLabel="작성하기" />
+      </div>
     </div>
   )
 }

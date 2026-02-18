@@ -26,36 +26,50 @@ function SearchBar({ onSearch, initialKeyword = '', initialCategory = '' }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-wrap gap-2 mb-6">
-      {/* 검색어 입력 필드 */}
-      <input
-        type="text"
-        placeholder="검색어를 입력하세요"
-        value={keyword}
-        onChange={(e) => setKeyword(e.target.value)}
-        className="flex-1 min-w-[200px] border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-      />
-      {/* 카테고리 드롭다운 */}
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        className="border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300"
-      >
-        <option value="">전체 카테고리</option>
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.name}>
-            {cat.name}
-          </option>
-        ))}
-      </select>
-      {/* 검색 버튼 */}
-      <button
-        type="submit"
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 text-sm"
-      >
-        검색
-      </button>
-    </form>
+    // 검색 영역을 카드 형태로 감싸기 (배경색 + 테두리 + 둥근 모서리)
+    <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-6">
+      <form onSubmit={handleSubmit} className="flex flex-wrap gap-2">
+        {/* 검색어 입력 필드: 왼쪽에 돋보기 아이콘 포함 */}
+        <div className="relative flex-1 min-w-[200px]">
+          {/* 돋보기 SVG 아이콘: 입력 필드 왼쪽에 절대 위치로 배치 */}
+          <svg
+            className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+          <input
+            type="text"
+            placeholder="검색어를 입력하세요"
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
+            className="w-full border border-gray-200 rounded-lg pl-10 pr-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 bg-gray-50 placeholder-gray-400"
+          />
+        </div>
+        {/* 카테고리 드롭다운 */}
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:border-indigo-300 bg-gray-50"
+        >
+          <option value="">전체 카테고리</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.name}>
+              {cat.name}
+            </option>
+          ))}
+        </select>
+        {/* 검색 버튼: 인디고→퍼플 그라데이션 */}
+        <button
+          type="submit"
+          className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-5 py-2 rounded-lg hover:from-indigo-600 hover:to-purple-600 hover:shadow-md text-sm font-medium"
+        >
+          검색
+        </button>
+      </form>
+    </div>
   )
 }
 

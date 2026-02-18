@@ -49,24 +49,24 @@ function PostForm({ initialData = {}, onSubmit, submitLabel = '작성하기' }) 
     <form onSubmit={handleSubmit} className="space-y-5">
       {/* 글 제목 입력 */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">제목</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1.5">제목</label>
         <input
           type="text"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-50 placeholder-gray-400"
           placeholder="글 제목을 입력하세요"
         />
       </div>
 
       {/* 카테고리 선택 */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">카테고리</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1.5">카테고리</label>
         <select
           value={categoryId}
           onChange={(e) => setCategoryId(e.target.value)}
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-50"
         >
           <option value="">선택 없음</option>
           {categories.map((cat) => (
@@ -79,34 +79,34 @@ function PostForm({ initialData = {}, onSubmit, submitLabel = '작성하기' }) 
 
       {/* 태그 입력 */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">태그</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1.5">태그</label>
         <input
           type="text"
           value={tagInput}
           onChange={(e) => setTagInput(e.target.value)}
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-50 placeholder-gray-400"
           placeholder="쉼표로 구분 (예: Java, Spring, JPA)"
         />
       </div>
 
       {/* 글 내용 입력 (Markdown 지원) */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">내용 (Markdown)</label>
+        <label className="block text-sm font-semibold text-gray-700 mb-1.5">내용 (Markdown)</label>
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
           required
           rows={15}
-          className="w-full border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-300 font-mono text-sm"
+          className="w-full border border-gray-200 rounded-lg px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-50 font-mono text-sm placeholder-gray-400"
           placeholder="Markdown 형식으로 작성하세요"
         />
       </div>
 
-      {/* 제출 버튼 */}
+      {/* 제출 버튼: 인디고→퍼플 그라데이션 */}
       <button
         type="submit"
         disabled={submitting}
-        className="bg-blue-500 text-white px-6 py-2 rounded-lg hover:bg-blue-600 disabled:opacity-50"
+        className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white px-6 py-2.5 rounded-lg hover:from-indigo-600 hover:to-purple-600 hover:shadow-md disabled:opacity-50 font-medium"
       >
         {submitting ? '처리 중...' : submitLabel}
       </button>

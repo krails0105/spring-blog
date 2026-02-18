@@ -10,14 +10,14 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
   const pages = Array.from({ length: totalPages }, (_, i) => i)
 
   return (
-    <div className="flex justify-center gap-1 mt-8">
-      {/* 이전 페이지 버튼 */}
+    <div className="flex justify-center gap-2 mt-8">
+      {/* 이전 페이지 버튼: pill 형태 (둥근 모서리) */}
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 0}
-        className="px-3 py-1 rounded border text-sm disabled:opacity-30 hover:bg-gray-100"
+        className="px-3 py-1.5 rounded-full text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed text-gray-500 hover:bg-indigo-50 hover:text-indigo-600"
       >
-        ←
+        &larr; 이전
       </button>
 
       {/* 페이지 번호 버튼들 */}
@@ -25,11 +25,11 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
         <button
           key={page}
           onClick={() => onPageChange(page)}
-          // 현재 페이지는 파란색 배경, 나머지는 흰색 배경
-          className={`px-3 py-1 rounded border text-sm ${
+          // 현재 페이지: 인디고→퍼플 그라데이션 배경, 나머지: 호버 시 연한 인디고 배경
+          className={`w-9 h-9 rounded-full text-sm font-medium ${
             page === currentPage
-              ? 'bg-blue-500 text-white'
-              : 'hover:bg-gray-100'
+              ? 'bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md'
+              : 'text-gray-600 hover:bg-indigo-50 hover:text-indigo-600'
           }`}
         >
           {/* 사용자에게는 1부터 보여줌 (내부적으로는 0부터) */}
@@ -41,9 +41,9 @@ function Pagination({ currentPage, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages - 1}
-        className="px-3 py-1 rounded border text-sm disabled:opacity-30 hover:bg-gray-100"
+        className="px-3 py-1.5 rounded-full text-sm font-medium disabled:opacity-30 disabled:cursor-not-allowed text-gray-500 hover:bg-indigo-50 hover:text-indigo-600"
       >
-        →
+        다음 &rarr;
       </button>
     </div>
   )

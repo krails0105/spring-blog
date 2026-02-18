@@ -56,7 +56,17 @@ function PostListPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-gray-800 mb-6">글 목록</h1>
+      {/* 페이지 상단 헤더: 장식용 그라데이션 배경 + 설명 텍스트 */}
+      <div className="relative mb-8 p-6 rounded-2xl bg-gradient-to-r from-indigo-500 to-purple-500 text-white overflow-hidden">
+        {/* 장식 원형 요소들: 배경에 반투명 원을 배치하여 깊이감 연출 */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-10 w-20 h-20 bg-white/10 rounded-full translate-y-1/2" />
+        {/* 헤더 텍스트 (장식 요소 위에 표시되도록 relative) */}
+        <div className="relative">
+          <h1 className="text-2xl font-bold mb-1">글 목록</h1>
+          <p className="text-indigo-100 text-sm">Spring Boot와 함께하는 개발 이야기</p>
+        </div>
+      </div>
 
       {/* 검색/필터 바 */}
       <SearchBar
@@ -66,13 +76,17 @@ function PostListPage() {
       />
 
       {/* 로딩 중 표시 */}
-      {loading && <p className="text-gray-500 text-center py-8">불러오는 중...</p>}
-
-      {/* 글 목록 */}
-      {!loading && posts.length === 0 && (
-        <p className="text-gray-500 text-center py-8">글이 없습니다.</p>
+      {loading && (
+        <p className="text-gray-400 text-center py-12">불러오는 중...</p>
       )}
-      <div className="space-y-3">
+
+      {/* 글이 없을 때 표시 */}
+      {!loading && posts.length === 0 && (
+        <p className="text-gray-400 text-center py-12">글이 없습니다.</p>
+      )}
+
+      {/* 글 목록: 카드 사이 간격을 좀 더 넓게 */}
+      <div className="space-y-4">
         {posts.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
