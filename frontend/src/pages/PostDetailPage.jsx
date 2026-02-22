@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams, useNavigate, Link } from 'react-router-dom'
 import { fetchPost, deletePost } from '../api/postApi'
 import { useAuth } from '../contexts/AuthContext'
+import CommentSection from '../components/CommentSection'
 
 // PostDetailPage: 글 상세 보기 페이지
 // URL의 :id 파라미터로 어떤 글을 보여줄지 결정
@@ -113,6 +114,9 @@ function PostDetailPage() {
           )}
         </div>
       </div>
+
+      {/* 댓글 영역: 게시글 하단에 표시 */}
+      <CommentSection postId={id} />
     </article>
   )
 }

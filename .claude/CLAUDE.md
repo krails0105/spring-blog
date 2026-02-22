@@ -9,16 +9,26 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 - H2 Database (개발) → MySQL/PostgreSQL (운영)
 - Gradle, Java 17
 
+## 환경 설정
+
+- Java 실행 전 반드시 `jenv shell 17` 실행 (jenv로 Java 17 사용)
+
 ## 진행 방식 (필수 - 절대 위반 금지)
 
 이 프로젝트는 **사용자가 직접 구현하면서 배우는 학습 프로젝트**입니다.
 
-**Claude Code의 역할은 가이드/리뷰/피드백만 제공하는 것입니다.**
+**Backend**: Claude Code의 역할은 가이드/리뷰/피드백만 제공하는 것입니다.
+**Frontend**: Claude가 직접 코드를 작성하되, 문법과 개념을 설명하면서 진행합니다.
 
+### Backend 규칙
 - **절대 금지**: 코드를 직접 작성하거나, 파일을 수정하거나, 명령어를 대신 실행하는 행위
 - **가이드 먼저**: 무엇을 해야 하는지 개념과 방향만 설명. 코드 예시는 사용자가 먼저 구현한 후에 제공
 - **사용자가 직접**: 코드 작성, 파일 수정, 명령어 실행, 에러 해결 시도
 - **코드 리뷰**: 사용자가 구현한 코드에 대해 피드백 + 개선된 코드 예시 제공
+
+### Frontend 규칙
+- **Claude가 직접 작성**: 프론트엔드 코드는 Claude가 직접 작성
+- **문법/개념 설명 필수**: 코드 작성 후 사용된 React 문법, 패턴, 개념을 설명
 - Phase 완료 시 Jekyll 블로그에 학습 포스트 작성 (이것만 Claude가 직접 수행)
 - **Phase 완료 시 코드 점검 (필수)**: 포스트 작성 전에 해당 Phase에서 작성된 모든 코드를 점검하고, 초보자를 위한 설명 주석을 달아줄 것 (이것도 Claude가 직접 수행)
 - **Phase 완료 시 리팩토링 (필수)**: 변수명, 메서드명, 클래스명이 역할에 맞는지 점검하고 Spring 관례에 맞게 리팩토링 (이것도 Claude가 직접 수행)
@@ -52,7 +62,8 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 - Phase 9: 프론트엔드 분리 ✅ (React + Vite, CORS, API 연동)
 - Phase 10A: 세션 기반 인증 ✅
 - Phase 10B: JWT 기반으로 전환 ✅
-- Phase 11: 댓글 기능 (예정)
+- Phase 11: 댓글 기능 ✅ (누구나 댓글 작성, 비밀번호 기반 삭제/수정)
+- Phase 12: (예정)
 
 ## Phase 10: 로그인/인증 기능 구현
 
@@ -115,3 +126,43 @@ Spring Boot + Thymeleaf로 블로그를 직접 구현하면서 Spring을 학습�
 | CORS | allowCredentials 필요 | 불필요 |
 | 로그아웃 | 서버에서 세션 파기 | 클라이언트 토큰 삭제 |
 | 확장성 | 서버 증설 시 세션 공유 문제 | 서버 증설에 유리 |
+
+## Phase 11: 댓글 기능 구현
+
+### 설계 요약
+- **누구나 댓글 작성 가능**: 비로그인 사용자도 닉네임 + 비밀번호로 댓글 작성
+- **삭제/수정 시 비밀번호 확인**: 작성 시 입력한 비밀번호로 본인 확인
+- **관리자**: 로그인한 관리자는 모든 댓글 삭제 가능
+
+### 구현 파일
+
+| # | 위치 | 파일 | 설명 |
+|---|------|------|------|
+| 1 | Backend | `entity/Comment.java` | 댓글 엔티티 (Post와 ManyToOne 관계) |
+| 2 | Backend | `repository/CommentRepository.java` | 댓글 저장소 (게시글별 페이징 조회) |
+| 3 | Backend | `dto/CommentRequest.java` | 댓글 작성/수정 요청 DTO |
+| 4 | Backend | `dto/CommentDeleteRequest.java` | 댓글 삭제 요청 DTO (비밀번호만) |
+| 5 | Backend | `dto/CommentResponse.java` | 댓글 응답 DTO (비밀번호 제외) |
+| 6 | Backend | `service/CommentService.java` | 댓글 비즈니스 로직 (비밀번호 검증 포함) |
+| 7 | Backend | `controller/CommentApiController.java` | 댓글 REST API 컨트롤러 |
+| 8 | Backend | `config/SecurityConfig.java` | 댓글 API 접근 권한 추가 |
+| 9 | Frontend | `api/commentApi.js` | 댓글 API 호출 함수 |
+| 10 | Frontend | `components/CommentSection.jsx` | 댓글 영역 컴포넌트 |
+| 11 | Frontend | `pages/PostDetailPage.jsx` | CommentSection 연동 |
+
+### API 엔드포인트
+
+| Method | Endpoint | Description | 인증 |
+|--------|----------|-------------|------|
+| GET | `/api/posts/{postId}/comments` | 댓글 목록 조회 (페이징) | 불필요 |
+| POST | `/api/posts/{postId}/comments` | 댓글 작성 | 불필요 |
+| PUT | `/api/comments/{id}` | 댓글 수정 | 비밀번호 확인 |
+| DELETE | `/api/comments/{id}` | 댓글 삭제 | 비밀번호 확인 |
+
+### 학습 키워드
+- `@ManyToOne` / `@JoinColumn`: JPA 연관관계 매핑
+- `@PrePersist` / `@PreUpdate`: JPA 라이프사이클 콜백 (createdAt/updatedAt 자동 설정)
+- `Page<T>` / `Pageable`: Spring Data JPA 페이징
+- `ResponseEntity` vs 직접 반환: HTTP 상태 코드 제어
+- `@Setter`가 Request DTO에 필요한 이유: Jackson JSON 역직렬화 과정
+- Spring Security `requestMatchers`: URL별 접근 권한 설정
